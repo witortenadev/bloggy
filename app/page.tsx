@@ -1,12 +1,18 @@
-import React from 'react'
-import Navbar from './components/Navbar'
+import React from "react";
+import Navbar from "./components/Navbar";
+import Posts from "./components/Posts";
 
 function Home() {
   return (
     <main>
-      <Navbar />
+      <header>
+        <Navbar />
+      </header>
+      <section>
+        <Posts />
+      </section>
     </main>
-  )
+  );
 }
 
-export default Home
+export default Home;

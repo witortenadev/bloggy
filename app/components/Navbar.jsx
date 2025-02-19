@@ -7,7 +7,7 @@ function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
     <nav
-      className={`flex flex-col sm:flex-row w-full ${
+      className={`border-b border-b-gray-700 fixed top-0 flex flex-col sm:flex-row w-full ${
         isMenuOpen ? "items-center" : "items-end px-4"
       } justify-center bg-slate-800 py-2`}
     >
