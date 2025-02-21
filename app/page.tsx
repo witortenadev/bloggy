@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "./components/Navbar";
-import Posts from "./components/Posts";
+import Create from "./components/Create";
 
 function Home() {
   return (
@@ -8,9 +8,12 @@ function Home() {
       <header>
         <Navbar />
       </header>
-      <section>
-        <Posts />
+      <section className="mt-16">
+        <Create />
       </section>
+      {/* <section className="h-screen flex justify-center items-center">
+        <h1 className="text-5xl font-bold">Welcome home</h1>
+      </section> */}
     </main>
   );
 }
