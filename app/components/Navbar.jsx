@@ -22,7 +22,7 @@ function Navbar() {
           isMenuOpen ? "flex" : "hidden"
         } flex-col sm:flex sm:flex-row max-w-screen-xl gap-4 mx-auto font-bold text-white transition-all`}
       >
-        {["Home", "Posts", "Users"].map((item, i) => (
+        {["Home", "Create", "Posts", "Users"].map((item, i) => (
           <NavItem key={i} label={item} />
         ))}
       </ul>

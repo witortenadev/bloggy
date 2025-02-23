@@ -7,7 +7,7 @@ async function Posts() {
   let posts = postsList.posts
 
   return (
-    <div className="grid mt-12 m-4 grid auto-rows sm:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto max-w-screen-xl p-4">
+    <div className="grid mt-12 auto-rows sm:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto max-w-screen-xl p-4">
       {posts.map((post) => (
         <Post key={post._id} post={post} />
       ))}
@@ -36,4 +36,7 @@ function Post({ post }) {
   )
 }
 
+export const metadata = {
+  viewport: "width=device-width, initial-scale=1, user-scalable=no"
+};
 export default Posts;
