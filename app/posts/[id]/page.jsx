@@ -18,7 +18,7 @@ export default async function Page({ params }) {
 	return (
 		<>
 			<Navbar />
-			<div className="mx-auto px-4 mt-4 max-w-screen-xl">
+			<div className="mx-auto px-4 mt-16 max-w-screen-xl">
 				<div>
 					<div className="mb-4 flex flex-col sm:flex-row justify-between">
 						<h1 className="text-2xl font-bold">{post?.title || "Título não disponível"}</h1>

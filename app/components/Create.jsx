@@ -35,6 +35,10 @@ return (
                         if (res.ok) {
                             alert("Post created successfully");
                         } else {
+                            if(token) {
+                                router.push('/user/login');
+                                return alert("Login to create a post.")
+                            }
                             alert("Failed to create post");
                         }
                     })
