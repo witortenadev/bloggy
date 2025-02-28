@@ -2,9 +2,9 @@
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-function Create() {
-  const [postTitle, setPostTitle] = useState("");
-  const [postContent, setPostContent] = useState("");
+function Create({ title, content, postId }) {
+  const [postTitle, setPostTitle] = useState(title || "");
+  const [postContent, setPostContent] = useState(content || "");
   const router = useRouter();
 
 return (
@@ -19,34 +19,65 @@ return (
                     router.push('/user/register');
                     return;
                 }
-
-                fetch("https://bloggyapi.onrender.com/post/create", {
-                    method: "POST",
-                    headers: {
-                        "Authorization": "Bearer " + token,
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        title: postTitle,
-                        content: postContent,
-                    }),
-                })
-                    .then((res) => {
-                        if (res.ok) {
-                            alert("Post created successfully");
-                        } else {
-                            if(token) {
-                                router.push('/user/login');
-                                return alert("Login to create a post.")
-                            }
-                            alert("Failed to create post");
-                        }
+                if(!title && !content) {
+                    console.log("Creating post");
+                    fetch("https://bloggyapi.onrender.com/post/create", {
+                        method: "POST",
+                        headers: {
+                            "Authorization": "Bearer " + token,
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            title: postTitle,
+                            content: postContent,
+                        }),
                     })
-                    .catch((err) => {
-                        console.error(err);
-                    });
-            }}
-        >
+                        .then((res) => {
+                            console.log(res.json().then((data) => console.log(data)));
+                            if (res.ok) {
+                                alert("Post created successfully");
+                            } else {
+                                if(token) {
+                                    router.push('/user/login');
+                                    return alert("Login to create a post.")
+                                }
+                                alert("Failed to create post");
+                            }
+                        })
+                        .catch((err) => {
+                            console.error(err);
+                        });
+                } else {
+                    console.log("Updating post");
+                    fetch("https://bloggyapi.onrender.com/post/edit/" + postId, {
+                        method: "PUT",
+                        headers: {
+                            "Authorization": "Bearer " + token,
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            title: postTitle,
+                            content: postContent,
+                        }),
+                    })
+                            .then((res) => {
+                                console.log(res.json().then((data) => console.log(data)));
+                                if (res.ok) {
+                                    alert("Post updated successfully");
+                                } else {
+                                    if(token) {
+                                        router.push('/user/login');
+                                        return alert("You are not authorized to update this post.")
+                                    }
+                                    alert("Failed to update post");
+                                }
+                            })
+                            .catch((err) => {
+                                console.error(err);
+                            });
+                    }
+                }}
+            >
             <input
                 type="text"
                 name="title"
