@@ -19,7 +19,7 @@ function Post({ post }) {
   return (
     <Link href={'/posts/' + post._id}>
       <div
-        className="hover:border-gray-200 border border-gray-700 p-4 h-full w-full bg-slate-800 rounded-sm p-4 flex flex-col gap-2"
+        className="min-h-52 hover:-translate-y-1 transition-all hover:border-gray-200 border border-gray-700 p-4 h-full w-full bg-slate-800 rounded-sm p-4 flex flex-col gap-2"
       >
         <div className="mb-2">
           <div className="flex flex-col sm:flex-row justify-between sm:items-center">

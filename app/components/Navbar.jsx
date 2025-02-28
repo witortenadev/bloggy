@@ -7,7 +7,7 @@ function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
     <nav
-      className={`border-b border-b-gray-700 fixed top-0 flex flex-col sm:flex-row w-full ${
+      className={`transition-all text-center border-b border-b-gray-700 fixed top-0 flex flex-col sm:flex-row w-full ${
         isMenuOpen ? "items-center" : "items-end px-4"
       } justify-center bg-slate-800 py-2`}
     >
@@ -36,8 +36,8 @@ function NavItem({ label }) {
     link = "/";
   }
   return (
-    <Link href={link ? link : label.toLowerCase()}>
-      <li className="cursor-pointer rounded-sm p-1 hover:bg-slate-500">
+    <Link href={link ? link : "/" + label.toLowerCase()}>
+      <li className="transition-all hover:px-10 cursor-pointer rounded-sm p-1 hover:bg-slate-500">
         {label}
       </li>
     </Link>

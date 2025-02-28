@@ -36,6 +36,7 @@ return (
                             console.log(res.json().then((data) => console.log(data)));
                             if (res.ok) {
                                 alert("Post created successfully");
+                                router.push('/posts');
                             } else {
                                 if(token) {
                                     router.push('/user/login');
@@ -64,9 +65,10 @@ return (
                                 console.log(res.json().then((data) => console.log(data)));
                                 if (res.ok) {
                                     alert("Post updated successfully");
+                                    router.push('/posts/' + postId);
                                 } else {
                                     if(token) {
-                                        router.push('/user/login');
+                                        router.push('/posts/' + postId);
                                         return alert("You are not authorized to update this post.")
                                     }
                                     alert("Failed to update post");
@@ -100,7 +102,7 @@ return (
                 className="p-2 text-black"
             ></textarea>
             <button className="border-2 border-gray-400 rounded-sm p-2 text-xl bg-slate-700 hover:border-gray-200">
-                Create
+                {title && content ? "Update" : "Create"}
             </button>
         </form>
     </div>
