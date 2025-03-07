@@ -1,9 +1,11 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Navbar from '../../components/Navbar'
+import Navbar from "../../components/Navbar";
 
 function Login() {
+  const router = useRouter();
   const [message, setMessage] = useState("");
   const [formData, setFormData] = useState({
     email: "",
@@ -12,17 +14,23 @@ function Login() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    fetch("https://bloggyapi.onrender.com/user/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        localStorage.setItem("token", data.token);
-        setMessage(data.message);
+    try {
+      fetch("https://bloggyapi.onrender.com/user/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       })
-      .catch((error) => setMessage("An error occurred"));
+        .then((response) => response.json())
+        .then((data) => {
+          localStorage.setItem("token", data.token);
+          setMessage(data.message);
+        })
+        .then(() => router.push("/"))
+        .then(() => setMessage("Login successful"))
+        .catch((error) => setMessage(error.message));
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   function handleChange(event) {

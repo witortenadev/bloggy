@@ -15,14 +15,19 @@ function Register() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    fetch("https://bloggyapi.onrender.com/user/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => response.json())
-      .then((data) => setMessage(data.message))
-      .catch((error) => setMessage("An error occurred"));
+    try {
+      fetch("https://bloggyapi.onrender.com/user/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      })
+        .then((res) => {if(res.ok == true) {router.push("/user/login")}})
+        .then((response) => response.json())
+        .then((data) => setMessage(data.message))
+        .catch((error) => setMessage("An error occurred", error));
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   function handleChange(event) {

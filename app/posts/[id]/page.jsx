@@ -1,19 +1,53 @@
+'use client'
+import { useEffect, useState, use } from 'react';
 import Navbar from "@/app/components/Navbar";
 
-export default async function Page({ params }) {
-	const { id } = await params;
+export default function Page({ params }) {
+	const { id } = use(params);
 
-	let post = null;
+	const [post, setPost] = useState(null);
+	const [author, setAuthor] = useState(null);
+	const [authorId, setAuthorId] = useState(null);
 
-	try {
-		const res = await fetch(`https://bloggyapi.onrender.com/post/${id}`, { cache: "no-store" });
-		if (!res.ok) throw new Error(`Failure to fetch post: ${res.status}`);
+	useEffect(() => {
+		const fetchPost = async () => {
+			try {
+				const res = await fetch(`https://bloggyapi.onrender.com/post/${id}`);
+				if (!res.ok) throw new Error(`Failed to fetch post: ${res.status}`);
 
-		const postResponse = await res.json();
-		post = postResponse.post;
-	} catch (error) {
-		console.error("Erro ao buscar post:", error);
-	}
+				const postResponse = await res.json();
+				setPost(postResponse.post);
+				setAuthorId(postResponse.post.author._id);
+			} catch (error) {
+				console.error("Error fetching post:", error);
+			}
+		};
+		
+		const fetchUser = async () => {
+			if (!authorId) {
+				return console.log(authorId)
+			}
+
+			try {
+				const token = localStorage.getItem("token");
+				const res = await fetch(`https://bloggyapi.onrender.com/user/${authorId}`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				});
+				if (!res.ok) throw new Error(`Failed to fetch user: ${res.status}`);
+
+				const userResponse = await res.json();
+				setAuthor(userResponse);
+				console.log(userResponse);
+			} catch (error) {
+				console.error("Error fetching user:", error);
+			}
+		};
+
+		fetchPost();
+		fetchUser();
+	}, [authorId]);
 
 	return (
 		<>
@@ -26,6 +60,15 @@ export default async function Page({ params }) {
 					</div>
 					<p className="text-xl">{post?.content || "Conteúdo indisponível"}</p>
 				</div>
+				{
+					author && author.username === post?.author?.username && (
+						<div className="mt-4">
+							<h2 className="text-xl font-bold">Author</h2>
+							<p>{author.username}</p>
+							<p>{post?.author?.username}</p>
+						</div>
+					)
+				}
 			</div>
 		</>
 	);
