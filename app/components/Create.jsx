@@ -32,8 +32,8 @@ return (
                             content: postContent,
                         }),
                     })
-                        .then((res) => {
-                            console.log(res.json().then((data) => console.log(data)));
+                        .then((res) => res.json().then((data) => {
+                            console.log(data);
                             if (res.ok) {
                                 alert("Post created successfully");
                                 router.push('/posts');
@@ -44,7 +44,7 @@ return (
                                 }
                                 alert("Failed to create post");
                             }
-                        })
+                        }))
                         .catch((err) => {
                             console.error(err);
                         });
@@ -61,8 +61,8 @@ return (
                             content: postContent,
                         }),
                     })
-                            .then((res) => {
-                                console.log(res.json().then((data) => console.log(data)));
+                            .then((res) => res.json().then((data) => {
+                                console.log(data);
                                 if (res.ok) {
                                     alert("Post updated successfully");
                                     router.push('/posts/' + postId);
@@ -73,7 +73,7 @@ return (
                                     }
                                     alert("Failed to update post");
                                 }
-                            })
+                            }))
                             .catch((err) => {
                                 console.error(err);
                             });

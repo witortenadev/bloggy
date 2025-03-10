@@ -1,6 +1,8 @@
 'use client'
 import { useEffect, useState, use } from 'react';
 import Navbar from "@/app/components/Navbar";
+import { BiEdit } from 'react-icons/bi';
+import { useRouter } from 'next/navigation';
 
 export default function Page({ params }) {
 	const { id } = use(params);
@@ -8,8 +10,11 @@ export default function Page({ params }) {
 	const [post, setPost] = useState(null);
 	const [author, setAuthor] = useState(null);
 	const [authorId, setAuthorId] = useState(null);
+	const [loading, setLoading] = useState(true);
+	const router = useRouter();
 
 	useEffect(() => {
+		setLoading(true);
 		const fetchPost = async () => {
 			try {
 				const res = await fetch(`https://bloggyapi.onrender.com/post/${id}`);
@@ -21,21 +26,26 @@ export default function Page({ params }) {
 			} catch (error) {
 				console.error("Error fetching post:", error);
 			}
+		setLoading(false);
 		};
 		
 		const fetchUser = async () => {
 			if (!authorId) {
 				return console.log(authorId)
 			}
+			
+			const token = localStorage.getItem("token");
+			if (!token) {
+				return console.log("Not logged in to validate user and allow editing");
+			}
 
 			try {
-				const token = localStorage.getItem("token");
 				const res = await fetch(`https://bloggyapi.onrender.com/user/${authorId}`, {
 					headers: {
 						Authorization: `Bearer ${token}`,
 					},
 				});
-				if (!res.ok) throw new Error(`Failed to fetch user: ${res.status}`);
+				if (!res.ok) console.log(`User not found or not valid for editing: ${res.status}`);
 
 				const userResponse = await res.json();
 				setAuthor(userResponse);
@@ -49,10 +59,15 @@ export default function Page({ params }) {
 		fetchUser();
 	}, [authorId]);
 
+	const handleEdit = () => {
+		router.push(`/edit/${id}`);
+	}	
+
 	return (
+	!loading ? (
 		<>
 			<Navbar />
-			<div className="mx-auto px-4 mt-16 max-w-screen-xl">
+			<div className="mx-auto px-6 mt-20 max-w-screen-xl">
 				<div>
 					<div className="mb-4 flex flex-col sm:flex-row justify-between">
 						<h1 className="text-2xl font-bold">{post?.title || "Título não disponível"}</h1>
@@ -62,14 +77,24 @@ export default function Page({ params }) {
 				</div>
 				{
 					author && author.username === post?.author?.username && (
-						<div className="mt-4">
-							<h2 className="text-xl font-bold">Author</h2>
-							<p>{author.username}</p>
-							<p>{post?.author?.username}</p>
+						<div className="p-2 bg-slate-800 border-gray-700 border fixed right-2 bottom-2 sm:right-6 sm:bottom-6 w-fit h-fit rounded-sm hover:bg-slate-500 transition-all">
+							<button
+							onClick={() => {handleEdit()}}
+							className='flex justify-center items-center w-full h-full'>
+								<BiEdit size={50} />
+							</button>
 						</div>
 					)
 				}
 			</div>
 		</>
-	);
+	) : (
+		<>
+			<Navbar />
+			<div className="mx-auto text-center px-4 mt-16 max-w-screen-xl">
+				<h1 className="text-2xl font-bold">Loading...</h1>
+			</div>
+		</>
+	)
+)
 }

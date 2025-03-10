@@ -7,7 +7,7 @@ async function Posts() {
   let posts = postsList.posts
 
   return (
-    <div className="grid mt-12 auto-rows sm:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto max-w-screen-xl p-4">
+    <div className="grid mt-14 auto-rows sm:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto max-w-screen-xl p-4">
       {posts.map((post) => (
         <Post key={post._id} post={post} />
       ))}
