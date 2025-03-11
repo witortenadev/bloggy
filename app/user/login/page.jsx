@@ -20,13 +20,19 @@ function Login() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       })
-        .then((response) => response.json())
+        .then((response) => {
+          if (!response.ok) {
+            return response.json().then((data) => {
+              throw new Error(data.message);
+            });
+          }
+          return response.json();
+        })
         .then((data) => {
           localStorage.setItem("token", data.token);
-          setMessage(data.message);
+          setMessage("Login successful");
+          router.push("/");
         })
-        .then(() => router.push("/"))
-        .then(() => setMessage("Login successful"))
         .catch((error) => setMessage(error.message));
     } catch (error) {
       console.log(error);
