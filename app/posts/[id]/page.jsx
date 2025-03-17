@@ -107,7 +107,7 @@ export default function Page({ params }) {
           </div>
         )}
       </div>
-      <div className="p-2 bg-slate-800 border-gray-700 border fixed left-2 bottom-2 sm:right-6 sm:bottom-6 w-fit h-fit rounded-sm hover:bg-slate-500 transition-all">
+      <div className="p-2 bg-slate-800 border-gray-700 border fixed left-2 lg:left-[22rem] bottom-2 sm:right-6 sm:bottom-6 w-fit h-fit rounded-sm hover:bg-slate-500 transition-all">
 		<StarButton postId={id} />
       </div>
     </>

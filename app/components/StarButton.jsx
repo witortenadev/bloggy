@@ -8,6 +8,7 @@ function handleStarClick(postId) {
     
     if (!token) {
         console.log("Log in to star a post");
+        alert("Log in to star a post")
     return;
 }
 fetch("https://bloggyapi.onrender.com/post/star/" + postId, {
@@ -19,9 +20,10 @@ fetch("https://bloggyapi.onrender.com/post/star/" + postId, {
   .then((res) => res.json())
   .then((data) => {
       console.log(data);
+      window.location.reload()
     })
     .catch((err) => {
-        console.error("Error:", err);
+      console.error("Error:", err);
     });
 }
 
@@ -30,24 +32,23 @@ function StarButton({ postId }) {
 
     useEffect(() => {
         const token = localStorage.getItem("token");
-        if (!token) {
-            return console.log("Log in to star a post");
-        }
-        setStarred(false) 
-        fetch("https://bloggyapi.onrender.com/user/starred/" + postId, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json",
-            }
-        })
-        .then((res) => res.json())
-        .then((data) => {
-        setStarred(data.starred);
-          console.log(data);
-        })
-        .catch((err) => {
-            console.error("Error:", err);
-        });
+              if (!token) {
+                  return
+              }
+              setStarred(false) 
+              fetch("https://bloggyapi.onrender.com/user/starred/" + postId, {
+                  headers: {
+                      Authorization: `Bearer ${token}`,
+                      "Content-Type": "application/json",
+                  }
+              })
+              .then((res) => res.json())
+              .then((data) => {
+              setStarred(data.starred);
+              })
+              .catch((err) => {
+                  console.error("Error:", err);
+              })
     }, [postId])
 
     return !starred ? (
