@@ -4,6 +4,7 @@ import Navbar from "@/app/components/Navbar";
 import StarButton from "@/app/components/StarButton";
 import { BiEdit } from "react-icons/bi";
 import { useRouter } from "next/navigation";
+import { MdDelete } from "react-icons/md";
 
 export default function Page({ params }) {
   const { id } = use(params);
@@ -59,10 +60,36 @@ export default function Page({ params }) {
         console.error("Error fetching user:", error);
       }
     };
-
+    
     fetchPost();
     fetchUser();
   }, [authorId]);
+  
+  const handleDelete = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return console.log("Not logged in to validate user and allow deleting");
+    }
+    try {
+      const res = await fetch(
+        `https://bloggyapi.onrender.com/post/delete/${post._id}`,
+        {
+          method: "delete",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (!res.ok) {
+        console.log(`User not found or not valid for deleting: ${res.status}`);
+      }
+      const data = await res.json();
+      console.log(data)
+      router.push(`/posts`);
+  } catch(error) {
+    console.error("Error fetching user:", error);
+  }
+}
 
   const handleEdit = () => {
     router.push(`/edit/${id}`);
@@ -95,20 +122,28 @@ export default function Page({ params }) {
           <p className="text-xl">{post?.content || "Conteúdo indisponível"}</p>
         </div>
         {author && author.username === post?.author?.username && (
-          <div className="p-2 bg-slate-800 border-gray-700 border fixed right-2 bottom-2 sm:right-6 sm:bottom-6 w-fit h-fit rounded-sm hover:bg-slate-500 transition-all">
-            <button
-              onClick={() => {
-                handleEdit();
-              }}
-              className="flex justify-center items-center w-full h-full"
-            >
-              <BiEdit size={50} />
-            </button>
+          <div className="fixed right-2 bottom-2 sm:right-6 sm:bottom-6 w-fit h-fit rounded-sm">
+
+            <div className="flex gap-2 h-full w-full">
+              <button
+                onClick={() => {
+                  handleEdit();
+                }}
+                className="flex p-2 bg-slate-800 border-gray-700 border justify-center gap-2 items-center w-full h-full hover:bg-slate-500 transition-all"
+              >
+                <BiEdit size={50} />
+              </button>
+              <button
+                onClick={() => {
+                  handleDelete();
+                }}
+                className="flex p-2 bg-slate-800 border-gray-700 border justify-center gap-2 items-center w-full h-full hover:bg-slate-500 transition-all"
+              >
+                <MdDelete size={50} />
+              </button>
+            </div>
           </div>
         )}
-      </div>
-      <div className="p-2 bg-slate-800 border-gray-700 border fixed left-2 lg:left-[22rem] bottom-2 sm:right-6 sm:bottom-6 w-fit h-fit rounded-sm hover:bg-slate-500 transition-all">
-		<StarButton postId={id} />
       </div>
     </>
   ) : (
