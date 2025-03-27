@@ -82,7 +82,7 @@ function Post({ post }) {
               <div className="flex flex-col sm:flex-row justify-between sm:items-center">
                 <h1 className="font-bold text-xl">{post.title}</h1>
                 <div className="flex flex-col">
-                  <h2 className="text-gray-400 text-sm">{post.createdAt.split('T')[0].replace('-', '/').replace('-', '/')}</h2>
+                  <h2 className="text-gray-400 text-sm">{new Date(post?.createdAt).toLocaleString()}</h2>
                   <h2 className="text-gray-400">Stars: {post.stars}</h2>
                 </div>
               </div>

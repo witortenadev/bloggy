@@ -2,6 +2,7 @@
 import { useEffect, useState, use } from "react";
 import Navbar from "@/app/components/Navbar";
 import StarButton from "@/app/components/StarButton";
+import CommentSection  from "@/app/components/CommentSection";
 import { BiEdit } from "react-icons/bi";
 import { useRouter } from "next/navigation";
 import { MdDelete } from "react-icons/md";
@@ -98,8 +99,8 @@ export default function Page({ params }) {
   return !loading ? (
     <>
       <Navbar />
-      <div className="mx-auto px-6 mt-20 max-w-screen-xl">
-        <div>
+      <div className="flex flex-col mx-auto px-6 mt-20 max-w-screen-xl">
+        <div className="mb-4 flex w-full h-full flex-col gap-4 bg-slate-800 rounded-sm p-4">
           <div className="mb-4 flex flex-col sm:flex-row justify-between">
             <div className="flex flex-col items-start sm:items-end mt-4 sm:mt-0 sm:flex-row gap-2">
               <h1 className="text-2xl font-bold">
@@ -109,10 +110,7 @@ export default function Page({ params }) {
             </div>
             <div className="flex flex-col items-start sm:items-end mt-4 sm:mt-0 sm:flex-row gap-2">
               <h2 className="text-xl text-gray-400">
-                {post?.createdAt
-                  .replace("-", " ")
-                  .replace("-", " ")
-                  .split("T", [1]) || "Date unavailable"}
+                {new Date(post?.createdAt).toLocaleString()}
               </h2>
               <h2 className="text-2xl text-gray-400">
                 {post?.author?.username || "Author unavailable"}
@@ -121,6 +119,7 @@ export default function Page({ params }) {
           </div>
           <p className="text-xl">{post?.content || "Conteúdo indisponível"}</p>
         </div>
+        <CommentSection postId={id} />
         {author && author.username === post?.author?.username && (
           <div className="fixed right-2 bottom-2 sm:right-6 sm:bottom-6 w-fit h-fit rounded-sm">
 
