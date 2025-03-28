@@ -1,8 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
-import { CgComment } from "react-icons/cg";
+import { use, useEffect, useState } from "react";
 
-function CreateComment({ postId}) {
+function CreateComment({ postId }) {
   const [content, setContent] = useState("");
 
   async function handleSend() {
@@ -30,15 +29,14 @@ function CreateComment({ postId}) {
             console.log(data);
             setContent("");
         })
+        .then((data) => {
+          window.location.reload();
+        })
         .catch((err) => console.error(err));
     }
 
   return (
     <>
-      <div className="flex gap-2 items-start mb-4">
-        <CgComment size={55} className="text-slate-500" />
-        <h1 className="text-2xl font-bold">Comments</h1>
-      </div>
       <div className="flex w-full h-full flex-col gap-2 bg-slate-800 rounded-sm p-4">
         <h1 className="text-2xl font-bold">Add a comment</h1>
         <textarea
