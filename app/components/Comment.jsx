@@ -14,31 +14,38 @@ function Comment({ comment }) {
   }, [comment.author]);
 
   useEffect(() => {
-    // if (!author) return;
     fetch(`https://bloggyapi.onrender.com/user/${comment.author}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
       .then((res) => res.json())
-      .then(() => {
-        setIsOwner(true);
+      .then((data) => {
+        if (data._id === comment.author) {
+          setIsOwner(true);
+        } else {
+          setIsOwner(false);
+        }
       })
       .catch((err) => console.error(err));
   }, [comment.author]);
 
-  async function handleDelete() {
+  const handleDelete = () => {
     fetch(`https://bloggyapi.onrender.com/comment/delete/${comment._id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
-      .then(() => {
-        window.location.reload();
+      .then((res) => {
+        if (res.ok) {
+          window.location.reload()
+        } else {
+          console.error("Failed to delete the comment", res.statusText);
+        }
       })
       .catch((err) => console.error(err));
-  }
+  };
 
   return (
     <div className="flex flex-col gap-2 w-full border-gray-700 border rounded-sm p-4 bg-slate-800">
@@ -56,8 +63,8 @@ function Comment({ comment }) {
       {isOwner && (
         <div className="flex w-full h-full justify-end items-end">
           <button
-            onClick={handleDelete}
             className="bg-red-700 text-white p-2 rounded-sm w-fit hover:bg-red-900 transition-all"
+            onClick={handleDelete}
           >
             <MdDelete size={25} />
           </button>
