@@ -39,7 +39,7 @@ function Create({ title, content, postId }) {
                   console.log(data);
                   if (res.ok) {
                     alert("Post created successfully");
-                    router.push("/posts");
+                    router.push("/posts/" + data.post._id);
                   } else {
                     if (token) {
                       router.push("/user/login");

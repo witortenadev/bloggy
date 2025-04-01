@@ -23,10 +23,13 @@ function Register() {
       })
         .then((res) => {if(res.ok == true) {router.push("/user/login")}})
         .then((response) => response.json())
-        .then((data) => setMessage(data.message))
-        .catch((error) => setMessage("An error occurred", error));
+        .then((data) => {
+          console.log(data);
+          setMessage(data.message)
+        })
+        .catch((error) => setMessage("An error occurred ", error));
     } catch (error) {
-      console.log(error);
+      console.log("Error: " + error);
     }
   }
 
@@ -42,35 +45,38 @@ function Register() {
     <>
     <Navbar />
       <div className="h-screen flex items-center justify-center">
-        <div className="rounded-sm p-2 border-2 flex-col gap-2 border-gray-400 bg-slate-800 flex items-center justify-center">
+        <div className="rounded-sm p-4 border-2 flex-col gap-2 border-gray-400 bg-slate-800 flex items-center justify-center">
           <h1 className="text-2xl font-bold">Register</h1>
           <form
             onSubmit={handleSubmit}
             className="flex flex-col text-black items-center gap-2 justify-center"
           >
             <input
+              required
               onChange={handleChange}
               value={formData.username}
               type="text"
               name="username"
               placeholder="username"
-              className="p-2"
+              className="p-2 rounded-sm"
             />
             <input
+              required
               onChange={handleChange}
               value={formData.email}
               type="email"
               name="email"
               placeholder="email"
-              className="p-2"
+              className="p-2 rounded-sm"
             />
             <input
+              required
               onChange={handleChange}
               value={formData.password}
               type="password"
               name="password"
               placeholder="password"
-              className="p-2"
+              className="p-2 rounded-sm"
             />
             <button
               type="submit"
@@ -81,7 +87,7 @@ function Register() {
           </form>
           <div>
             <Link href="/user/login">
-              <p>Login</p>
+              <p className="text-gray-400 hover:text-gray-200">Login</p>
             </Link>
           </div>
           <div>
