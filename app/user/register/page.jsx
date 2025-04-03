@@ -21,13 +21,14 @@ function Register() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       })
-        .then((res) => {if(res.ok == true) {router.push("/user/login")}})
-        .then((response) => response.json())
+        .then((res) => {
+          return res.json();
+        })
         .then((data) => {
           console.log(data);
-          setMessage(data.message)
+          setMessage(data.message);
         })
-        .catch((error) => setMessage("An error occurred ", error));
+        .catch((error) => setMessage(`An error occurred: ${error.message}`));
     } catch (error) {
       console.log("Error: " + error);
     }
