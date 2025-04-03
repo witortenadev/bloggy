@@ -57,10 +57,18 @@ function RecentPosts() {
               {apiUrl === 'https://bloggyapi.onrender.com/post/all' ? 'Show most liked' : 'Show most recent'}
             </button>
           </div>
-          <div className="grid auto-rows sm:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto max-w-screen-xl p-4">
-            {posts.map((post) => (
-              <Post key={post._id} post={post} />
-            ))}
+          <div className={`${posts != null ? "grid" : "flex"} auto-rows sm:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto max-w-screen-xl p-4`}>
+            {
+              posts != null ? (
+              posts.map((post) => (
+                <Post key={post._id} post={post} />
+              ))
+            ) : (
+              <div className="w-full h-full flex items-center justify-center">
+                <h1 className="text-xl text-gray-400">No posts available</h1>
+              </div>
+            )
+            }
           </div>
           <div className="flex justify-center mt-8">
             <button
