@@ -5,6 +5,8 @@ import Link from "next/link";
 import Post from "./components/Post";
 import { BiComment, BiLike } from "react-icons/bi";
 import SearchBar from "./components/SearchBar";
+import { FaStar } from "react-icons/fa";
+import { BsStar } from "react-icons/bs";
 
 function Home() {
   // Fetch most-liked posts
@@ -32,8 +34,8 @@ function Home() {
       </header>
       <section className="mt-16 flex flex-col items-center justify-center w-full pt-4">
         <SearchBar />
-        <h1 className="text-3xl font-bold text-center mb-4">Most Liked Posts</h1>
-        <BiLike size={55} className="text-slate-500 mb-4" />
+        <h1 className="text-3xl font-bold text-center mb-4">Starred Posts</h1>
+        <BsStar size={55} className="text-slate-500 mb-4" />
         
         <div className="grid w-full h-full items-center auto-rows sm:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto max-w-screen-xl p-4">
           {

@@ -61,7 +61,7 @@ function Comment({ comment }) {
         {comment.content}
       </div>
       {isOwner && (
-        <div className="flex w-full h-full justify-end items-end">
+        <div className="flex w-full h-full justify-start items-end">
           <button
             className="bg-red-700 text-white p-2 rounded-sm w-fit hover:bg-red-900 transition-all"
             onClick={handleDelete}

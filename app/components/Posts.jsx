@@ -54,7 +54,7 @@ function RecentPosts() {
               onClick={handleApiUrlChange}
               className="px-4 py-2 bg-slate-500 text-white rounded-md hover:bg-blue-400"
             >
-              {apiUrl === 'https://bloggyapi.onrender.com/post/all' ? 'Show most liked' : 'Show most recent'}
+              {apiUrl === 'https://bloggyapi.onrender.com/post/all' ? 'Filter by stars' : 'Filter by date'}
             </button>
           </div>
           <div className="grid auto-rows sm:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto max-w-screen-xl p-4">
